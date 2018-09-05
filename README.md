@@ -1,6 +1,6 @@
 ## Console Commands
 
-- `stats.wipe` -- Reset statistics for all players *(server console/rcon only)*
+- `stats.wipe` -- Reset statistics for *all* players *(server console/rcon only)*
 - `stats.reset <steam id>` -- Reset statistics for a specific player *(server console/rcon only)*
 
 **Example**: `stats.reset 76561198338632981`

@@ -7,7 +7,7 @@ using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Simple PvP Stats", "6MyBad", "1.3")]
+    [Info("Simple PvP Stats", "6MyBad", "1.4")]
     [Description("Simple Pvp Statistics is a plugin to show its statistics by an in-game chat command.")]
     class SimplePVPStats : RustPlugin
     {
@@ -63,7 +63,6 @@ namespace Oxide.Plugins
         [ConsoleCommand("stats.wipe")]
         private void WipeStatsCmd(ConsoleSystem.Arg arg)
         {
-            if (arg.Connection == null) return;
             if (!arg.IsRcon) return;
 
             GetAllPlayers().ForEach(ID => SimplePVPStatsData.Reset(ID));
@@ -73,8 +72,8 @@ namespace Oxide.Plugins
         [ConsoleCommand("stats.reset")]
         private void ResetStatsCmd(ConsoleSystem.Arg arg)
         {
-            if (arg.Connection == null) return;
             if (!arg.IsRcon) return;
+            if (!arg.HasArgs()) return;
 
             if (arg.Args.Count() != 1)
             {
@@ -84,13 +83,13 @@ namespace Oxide.Plugins
 
             string ID = arg.Args[0];
 
-            if(ID.IsSteamId())
+            if (!ID.IsSteamId())
             {
-                string Name = GetPlayer(ulong.Parse(ID));
-
                 PrintWarning(string.Format(msg("ConsoleNotFoundMSG"), new object[] { ID }));
                 return;
-            }     
+            }
+
+            string Name = GetPlayer(ulong.Parse(ID));
 
             PrintWarning(string.Format(msg("ConsoleResetMSG"), new object[] { Name }));
         }

@@ -7,7 +7,7 @@ using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Simple PvP Stats", "6MyBad", "1.4.1")]
+    [Info("Simple PvP Stats", "6MyBad", "1.4.2")]
     [Description("Simple Pvp Statistics is a plugin to show its statistics by an in-game chat command.")]
     class SimplePVPStats : RustPlugin
     {
@@ -43,8 +43,8 @@ namespace Oxide.Plugins
             if (killer == null || killer == victim) return;
             if (victim.IsNpc) return;
 
-            cachedPlayerStats[killer.userID].Kills++;
-            cachedPlayerStats[victim.userID].Deaths++;
+            if (cachedPlayerStats.ContainsKey(killer.userID)) cachedPlayerStats[killer.userID].Kills++;
+            if (cachedPlayerStats.ContainsKey(victim.userID)) cachedPlayerStats[victim.userID].Deaths++;
 
             return;
         }

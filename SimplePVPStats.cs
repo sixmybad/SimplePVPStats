@@ -1,20 +1,19 @@
 ﻿using Oxide.Core;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Linq;
 using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Simple PvP Stats", "6MyBad", "1.4.3")]
+    [Info("Simple PvP Stats", "6MyBad", "1.4.4")]
     [Description("Simple Pvp Statistics is a plugin to show its statistics by an in-game chat command.")]
     class SimplePVPStats : RustPlugin
     {
         #region Declaration
 
-        private Dictionary<ulong, SimplePVPStatsData> cachedPlayerStats = new Dictionary<ulong, SimplePVPStatsData>();
         static SimplePVPStats ins;
+        static Dictionary<ulong, SimplePVPStatsData> cachedPlayerStats = new Dictionary<ulong, SimplePVPStatsData>();
 
         #endregion
 
@@ -22,6 +21,8 @@ namespace Oxide.Plugins
 
         private void OnServerInitialized()
         {
+            ins = this;
+
             lang.RegisterMessages(new Dictionary<string, string>
             {
                 ["PlayerStatisticsMSG"] = "<color=#ffc300>Your PvP Statistics</color> : <color=#ffc300>{0}</color> Kills, <color=#ffc300>{1}</color> Deaths, <color=#ffc300>{2}</color> K/D Ratio",
@@ -30,8 +31,7 @@ namespace Oxide.Plugins
                 ["ConsoleNotFoundMSG"] = "{0} Not Found!",
             }, this);
 
-            ins = this;
-            BasePlayer.activePlayerList.ForEach(player => { if (player != null) OnPlayerInit(player); });
+            BasePlayer.activePlayerList.ForEach(player => OnPlayerInit(player));
         }
 
         private void OnPlayerInit(BasePlayer player) => SimplePVPStatsData.TryLoad(player.userID);
@@ -97,6 +97,7 @@ namespace Oxide.Plugins
         [ChatCommand("stats")]
         private void cmdShowStatistics(BasePlayer player, string command, string[] args)
         {
+            if (!cachedPlayerStats.ContainsKey(player.userID)) SimplePVPStatsData.TryLoad(player.userID);
             PlayerMsg(player, string.Format(msg("PlayerStatisticsMSG", player.userID), new object[] { cachedPlayerStats[player.userID].Kills, cachedPlayerStats[player.userID].Deaths, cachedPlayerStats[player.userID].KDR }));
         }
 
@@ -132,13 +133,13 @@ namespace Oxide.Plugins
 
             internal static void TryLoad(ulong id)
             {
-                if (ins.cachedPlayerStats.ContainsKey(id)) return;
+                if (cachedPlayerStats.ContainsKey(id)) return;
 
                 SimplePVPStatsData data = Interface.Oxide.DataFileSystem.ReadObject<SimplePVPStatsData>($"SimplePvPStats/{id}");
 
-                if(data == null) data = new SimplePVPStatsData();
+                if (data == null) data = new SimplePVPStatsData();
 
-                ins.cachedPlayerStats.Add(id, data);
+                cachedPlayerStats.Add(id, data);
             }
 
             internal static void Reset(ulong id)

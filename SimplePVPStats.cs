@@ -1,13 +1,13 @@
 ﻿using Oxide.Core;
+using Oxide.Core.Libraries.Covalence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Oxide.Core.Libraries.Covalence;
 
 namespace Oxide.Plugins
 {
-    [Info("Simple PvP Stats", "6MyBad", "1.4.5")]
-    [Description("Simple Pvp Statistics is a plugin to show its statistics by an in-game chat command.")]
+    [Info("Simple PvP Stats", "6MyBad", "1.4.6")]
+    [Description("Shows PvP statistics via chat command")]
     class SimplePVPStats : RustPlugin
     {
         #region Declaration
@@ -19,10 +19,8 @@ namespace Oxide.Plugins
 
         #region Hooks
 
-        private void OnServerInitialized()
+        protected override void LoadDefaultMessages()
         {
-            ins = this;
-
             lang.RegisterMessages(new Dictionary<string, string>
             {
                 ["PlayerStatisticsMSG"] = "<color=#ffc300>Your PvP Statistics</color> : <color=#ffc300>{0}</color> Kills, <color=#ffc300>{1}</color> Deaths, <color=#ffc300>{2}</color> K/D Ratio",
@@ -30,13 +28,17 @@ namespace Oxide.Plugins
                 ["ConsoleResetMSG"] = "{0} PvP Statistics has been reset",
                 ["ConsoleNotFoundMSG"] = "{0} Not Found!",
             }, this);
+        }
 
-            BasePlayer.activePlayerList.ForEach(player => OnPlayerInit(player));
+        private void OnServerInitialized()
+        {
+            ins = this;
+            foreach (BasePlayer player in BasePlayer.activePlayerList) OnPlayerInit(player);
         }
 
         private void OnPlayerInit(BasePlayer player) => SimplePVPStatsData.TryLoad(player.userID);
 
-        private void OnPlayerDie(BasePlayer victim, HitInfo info)
+        private void OnPlayerDeath(BasePlayer victim, HitInfo info)
         {
             BasePlayer killer = info?.Initiator as BasePlayer;
 
@@ -58,7 +60,7 @@ namespace Oxide.Plugins
 
         #endregion
 
-        #region Commands       
+        #region Commands
 
         [ConsoleCommand("stats.wipe")]
         private void WipeStatsCmd(ConsoleSystem.Arg arg)

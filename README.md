@@ -12,5 +12,5 @@
 ## Localization
 
 ## TODO
-Support for multiple servers.                                                                                                                                                 
-More statistics (Headshots/Bullets fired/Healing used/Wounded revived)
+* Support for multiple servers.                                                                                                                                                 
+* More statistics *(headshots / bullets fired / healing used / wounded revived)*

@@ -12,9 +12,9 @@
 ## Localization
 
 ## TODO
-1. Support for multiple servers.                                                                                                                                                 
-1. More statistics
-* Headshots
-* Bullets fired
-* Healing used
-* Wounded revived
+Support for multiple servers.                                                                                                                                                 
+More statistics
+  * Headshots
+  * Bullets fired
+  * Healing used
+  * Wounded revived

@@ -13,4 +13,4 @@
 
 ## TODO
 * Support for multiple servers.                                                                                                                                                 
-* More statistics *(headshots / bullets fired / healing used / wounded revived)*
+* More statistics *(headshots, bullets fired, healing used, wounded revived)*

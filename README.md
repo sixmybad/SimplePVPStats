@@ -14,3 +14,6 @@
 ## TODO
 * Support for multiple servers.                                                                                                                                                 
 * More statistics *(headshots, bullets fired, healing used, wounded revived)*
+
+## Note
+Click the “Watch” button in the top right to get notified whenever a new update is released.

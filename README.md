@@ -9,10 +9,12 @@
 ## Showcase
 [Image](https://i.gyazo.com/c01bffaf75b29027f6bb5eb8145d8c89.png)
 
-![Preview](https://i.gyazo.com/c01bffaf75b29027f6bb5eb8145d8c89.png)
-
 ## Localization
 
-## Planned Features
-
-- Support for multiple servers
+## TODO
+Support for multiple servers.                                                                                                                                                 
+More statistics
+* Headshots
+* Bullets fired
+* Healing used
+* Wounded revived
